@@ -7,7 +7,7 @@ jobs:
       # Label used to access the service container
       redis:
         # Docker Hub image
-        image: redis
+        image: redis:6.0
         options: >-
           --health-cmd      "redis-cli ping"
           --health-interval 10s
@@ -16,5 +16,14 @@ jobs:
         ports:
           # Maps tcp port 6379 on service container to the host
           - 6379:6379
+
+      mysql:
+        image: mysql:5.7
+        env:
+          MYSQL_DATABASE     : test
+          MYSQL_ROOT_PASSWORD: 12345678
+        ports:
+          # Maps tcp port 3306 on service container to the host
+          - 3306:3306
     steps:
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
