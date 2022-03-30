@@ -3,30 +3,33 @@ on: [push]
 jobs:
   Build-Docker:
     runs-on: ubuntu-latest
-    services:
-      # Label used to access the service container
-      redis:
-        # Docker Hub image
-        image: redis:6.0
-        options: >-
-          --health-cmd      "redis-cli ping"
-          --health-interval 10s
-          --health-timeout  5s
-          --health-retries  5
-          --neme redis
-        ports:
-          # Maps tcp port 6379 on service container to the host
-          - 6379:6379
+    # services:
+    #   # Label used to access the service container
+    #   redis:
+    #     # Docker Hub image
+    #     image: redis:6.0
+    #     options: >-
+    #       --health-cmd      "redis-cli ping"
+    #       --health-interval 10s
+    #       --health-timeout  5s
+    #       --health-retries  5
+    #     ports:
+    #       # Maps tcp port 6379 on service container to the host
+    #       - 6379:6379
 
-      mysql:
-        image: mysql:5.7
-        options: --name mysql
-        env:
-          MYSQL_DATABASE     : test
-          MYSQL_ROOT_PASSWORD: 12345678
-        ports:
-          # Maps tcp port 3306 on service container to the host
-          - 3306:3306
+    #   mysql:
+    #     image: mysql:5.7
+    #     env:
+    #       MYSQL_DATABASE     : test
+    #       MYSQL_ROOT_PASSWORD: 12345678
+    #     ports:
+    #       # Maps tcp port 3306 on service container to the host
+    #       - 3306:3306
     steps:
       - name: Check out repository code
         uses: actions/checkout@v2
+
+      - name: Build Composer
+        run: |
+          cd deployments
+          docker-compose up -d
