@@ -7,7 +7,7 @@ services:
         context: ..
         dockerfile: build/DockerfileRedis
       volumes:
-        - .\conf\redis\redis.conf:/usr/local/etc/redis/redis.conf
+        - ./conf/redis/redis.conf:/usr/local/etc/redis/redis.conf
       ports:
         - "6380:6379"
       command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
@@ -19,23 +19,7 @@ services:
       context: ..
       dockerfile: build/DockerfileMysql
     volumes:
-       - .\mysqldata:/var/lib/mysql
-       - .\conf\mysql\my.cnf:/etc/mysql/my.cnf
+       - ./mysqldata:/var/lib/mysql
+       - ./conf/mysql/my.cnf:/etc/mysql/my.cnf
     ports:
         - "3310:3306"
-  web:
-    container_name: ginadmin-web
-    image: ginadmin-web
-    build:
-      context: ..
-      dockerfile: build/DockerfileWeb
-    volumes:
-       - ..\:/home/ginadmin  
-    ports:
-      - 20010:20010
-    depends_on:
-      - mysql
-      - redis
-    links:
-      - mysql:localmysql
-      - redis:localredis
