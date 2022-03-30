@@ -26,9 +26,7 @@ jobs:
     #       # Maps tcp port 3306 on service container to the host
     #       - 3306:3306
     steps:
-      - name: Check out repository code
-        uses: actions/checkout@v2
-
+     
       - name: Setup MySQL
         uses: mirromutth/mysql-action@v1.1    
         with:
