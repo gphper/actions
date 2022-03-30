@@ -48,3 +48,12 @@ jobs:
           container port: 6379 # Optional, default value is 6379. The port of container
           redis password: '123456' # Optional, default is empty 
 
+      - name: Golang
+        uses: actions/setup-go@v3
+        with:
+          go-version: '^1.13.1' # The Go version to download (if necessary) and use.
+
+      - name: Project
+        uses: actions/checkout@v3
+        run: |
+        go mod download
