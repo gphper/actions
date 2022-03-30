@@ -56,5 +56,5 @@ jobs:
 
       - name: Test Run Project  
         run: |
-          # go mod download
-          go build ./cmd/ginadmin
+          go mod download
+          go run ./cmd/ginadmin
