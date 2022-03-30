@@ -8,5 +8,13 @@ jobs:
       redis:
         # Docker Hub image
         image: redis
+        options: >-
+          --health-cmd      "redis-cli ping"
+          --health-interval 10s
+          --health-timeout  5s
+          --health-retries  5
+        ports:
+          # Maps tcp port 6379 on service container to the host
+          - 6379:6379
     steps:
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
