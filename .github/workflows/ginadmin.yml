@@ -16,19 +16,19 @@ jobs:
         ports:
           # Maps tcp port 6379 on service container to the host
           - 6379:6379
-
-      mysql:
-        image: mysql:5.7
-        options: >-
-          --character-set-server=utf8mb4 
-          --collation-server=utf8mb4_general_ci
-        env:
-          MYSQL_DATABASE     : db_beego
-          MYSQL_ROOT_PASSWORD: 123456
-        ports:
-          # Maps tcp port 3306 on service container to the host
-          - 3306:3306
     steps:
+
+      - name: Setup MySQL
+        uses: mirromutth/mysql-action@v1.1
+         with:
+          host port: 3306 # Optional, default value is 3306. The port of host
+          container port: 3306 # Optional, default value is 3306. The port of container
+          character set server: 'utf8' # Optional, default value is 'utf8mb4'. The '--character-set-server' option for mysqld
+          collation server: 'utf8_general_ci' # Optional, default value is 'utf8mb4_general_ci'. The '--collation-server' option for mysqld
+          mysql version: '5.7' # Optional, default value is "latest". The version of the MySQL
+          mysql database: 'db_beego' # Optional, default value is "test". The specified database which will be create
+          mysql root password: ${{ secrets.RootPassword }} # Required if "mysql user" is empty,
+
       - name: Golang
         uses: actions/setup-go@v3
         with:
