@@ -1,4 +1,4 @@
-name: GinAdmin
+name: GinAdminTest
 on: [push]
 jobs:
   Build-Docker:
@@ -19,33 +19,16 @@ jobs:
 
       mysql:
         image: mysql:5.7
+        options: >-
+          --character-set-server=utf8mb4 
+          --collation-server=utf8mb4_general_ci
         env:
           MYSQL_DATABASE     : db_beego
-          MYSQL_ROOT_PASSWORD: 12345678
+          MYSQL_ROOT_PASSWORD: 123456
         ports:
           # Maps tcp port 3306 on service container to the host
           - 3306:3306
     steps:
-     
-      # - name: Setup MySQL
-      #   uses: mirromutth/mysql-action@v1.1    
-      #   with:
-      #     host port: 3800 # Optional, default value is 3306. The port of host
-      #     container port: 3307 # Optional, default value is 3306. The port of container
-      #     character set server: 'utf8' # Optional, default value is 'utf8mb4'. The '--character-set-server' option for mysqld
-      #     collation server: 'utf8_general_ci' # Optional, default value is 'utf8mb4_general_ci'. The '--collation-server' option for mysqld
-      #     mysql version: '5.7' # Optional, default value is "latest". The version of the MySQL
-      #     mysql database: 'db_beego' # Optional, default value is "test". The specified database which will be create
-      #     mysql root password: 123456 # Required if "mysql user" is empty, default is empty. The root superuser password
-
-      # - name: Setup Redis with password
-      #   uses: getong/redis-action@v1
-      #   with:
-      #     redis version: '6.0' # Optional, default value is "latest". The version of the redis
-      #     host port: 6379 # Optional, default value is 6379. The port of host
-      #     container port: 6379 # Optional, default value is 6379. The port of container
-      #     redis password: '123456' # Optional, default is empty 
-
       - name: Golang
         uses: actions/setup-go@v3
         with:
@@ -57,4 +40,4 @@ jobs:
       - name: Test Run Project  
         run: |
           go mod download
-          go run ./cmd/ginadmin
+          go test -v ./test
